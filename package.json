@@ -8,9 +8,14 @@
     "npm": "4.0.2"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "bulma": "^0.2.3",
+    "consign": "^0.1.2",
+    "express": "^4.14.0",
+    "express-validator": "^3.1.0",
     "flux": "^3.1.0",
     "history": "^1.17.0",
+    "nodemon": "^1.11.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^3.0.0",
@@ -53,7 +58,7 @@
   },
   "scripts": {
     "start": "npm init && npm install --silent && gulp run:build && gulp advice:server",
-    "server": "node server.js",
+    "server": "node index.js",
     "test": "gulp run:test",
     "dev": "nf start",
     "build": "gulp run:build",
@@ -61,7 +66,7 @@
     "bundle:js": "webpack",
     "build:scss": "gulp build:scss",
     "bundle:scss": "gulp bundle:scss",
-    "dev-server": "webpack-dev-server --hot --inline --color --port 8000 --host 0.0.0.0 --output-public-path=/build/ --content-base ./",
+    "dev-server": "nodemon index.js",
     "watch:js": "webpack --config ./webpack.config.js --watch --colors",
     "deploy:js": "webpack --minimize --output-path deploy/build",
     "deploy": "gulp pre:deploy && npm run deploy:js && gulp deploy && npm run publish",
@@ -78,5 +83,13 @@
     "gulp",
     "ecma6",
     "ecmascript2015"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaomarcuslf/frontend-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joaomarcuslf/frontend-boilerplate/issues"
+  },
+  "homepage": "https://github.com/joaomarcuslf/frontend-boilerplate#readme"
 }
