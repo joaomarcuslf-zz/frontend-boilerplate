@@ -1,31 +1,44 @@
 const express = require('express');
+const morgan = require('morgan');
 const consign = require('consign');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 
-const app = express();
+const application = express();
 
-app.set('view engine', 'pug');
-app.set('views', './app/views');
+application.use(express.static('./assets'));
+application.use(express.static('./build'));
+application.use(express.static('./'));
 
-app.use(express.static('./assets'));
-app.use(express.static('./build'));
-app.use(express.static('./'));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(expressValidator());
+application.use(morgan('dev'));
 
+application.use(bodyParser.urlencoded({extended: true}));
+application.use(bodyParser.json());
+
+application.use(expressValidator());
 
 consign({
-    logger: console,
-    verbose: true,
-    extensions: [ '.js', '.json' ],
-    loggingType: 'info'
-  })
-	.include('app/routes')
-	.then('app/models')
+  logger: console,
+  verbose: true,
+  extensions: ['.js', '.json'],
+  loggingType: 'info'
+})
+  .include('app/routes')
+  .then('app/models')
   .then('app/controllers')
-	.into(app);
+  .then('app/constants')
+  .into(application);
 
-app.use((request, response) => response.status(404).render('404'));
+application.use((request, response) => {
+  let notFoundResource = {
+    status: application.app.constants.httpStatus.NOT_FOUND,
+    error: application.app.constants.error.NOT_FOUND_RESOURCE,
+    message: application.app.constants.error.NOT_FOUND_MESSAGE
+  };
 
-module.exports = app;
+  response
+    .status(notFoundResource.status)
+    .end(JSON.stringify(notFoundResource));
+});
+
+module.exports = application;

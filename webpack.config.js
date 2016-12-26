@@ -13,7 +13,7 @@ if (minimize) {
 module.exports = {
   context: __dirname,
   entry: [
-    './app/app.es6'
+    './app/app.js'
   ],
 
   output: {
@@ -31,11 +31,11 @@ module.exports = {
 
   module: {
     preLoaders: [
-        { test: [/\.es6$/, /\.jsx$/], exclude: /node_modules/, loader: 'eslint' }
+        { test: [/\.js$/, /\.es6$/, /\.jsx$/], exclude: /node_modules/, loader: 'eslint' }
     ],
     loaders: [
       {
-        test: [/\.es6$/, /\.jsx$/],
+        test: [/\.js$/, /\.es6$/, /\.jsx$/],
         exclude: /node_modules/,
         loader: 'babel',
         query: {
